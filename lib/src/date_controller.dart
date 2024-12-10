@@ -471,7 +471,7 @@ int _getNumberOfDays({required int year, required int month}) {
 
   final List<int> daysInMonths = [31, isLeapYear ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-  return daysInMonths[month];
+  return daysInMonths[month - 1];
 }
 
 /// Responsible for creating the list of daays in [String] type.

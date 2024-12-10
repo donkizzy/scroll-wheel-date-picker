@@ -27,7 +27,8 @@ class ScrollWheelDatePicker extends StatefulWidget {
     this.onSelectedItemChanged,
     required this.theme,
     this.listenAfterAnimation = true,
-    this.scrollBehavior,
+    this.scrollBehavior, this.border,
+    this.selectedTextStyle,
   });
 
   /// The initial date for the [ScrollWheelDatePicker]. Defaults to [DateTime.now].
@@ -65,6 +66,13 @@ class ScrollWheelDatePicker extends StatefulWidget {
 
   /// Describes how [Scrollable] widgets should behave.
   final ScrollBehavior? scrollBehavior;
+
+
+  /// Border color
+  final BoxBorder? border ;
+
+  /// Text style of the selected Date in the [CurveScrollWheel].
+  final TextStyle? selectedTextStyle;
 
   @override
   State<ScrollWheelDatePicker> createState() => _ScrollWheelDatePickerState();
@@ -135,6 +143,7 @@ class _ScrollWheelDatePickerState extends State<ScrollWheelDatePicker> {
             scrollBehavior: widget.scrollBehavior,
             startOffset: startOffset,
             lastOffset: lastOffset,
+            selectedTextStyle: widget.selectedTextStyle,
           )
         : FlatScrollWheel(
             items: controller.items,
@@ -157,6 +166,7 @@ class _ScrollWheelDatePickerState extends State<ScrollWheelDatePicker> {
         return HightlightOverlay(
           height: widget.theme.itemExtent,
           color: widget.theme.overlayColor,
+          border: widget.border,
         );
       case ScrollWheelDatePickerOverlay.holo:
         return HoloOverlay(

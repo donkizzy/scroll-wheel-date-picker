@@ -21,6 +21,8 @@ class CurveScrollWheel extends StatefulWidget {
   ///
   /// [textStyle] Text style of the items in the [CurveScrollWheel].
   ///
+  /// [selectedTextStyle] Text style of the selected Date in the [CurveScrollWheel].
+  ///
   /// [listenAfterAnimation] Whether to call the [onSelectedItemChanged] when the scroll wheel animation is completed. Defaults to `true`.
   const CurveScrollWheel({
     super.key,
@@ -36,6 +38,7 @@ class CurveScrollWheel extends StatefulWidget {
     this.scrollBehavior,
     this.startOffset,
     this.lastOffset,
+    this.selectedTextStyle,
   });
 
   /// Total items to render for the [CurveScrollWheel].
@@ -63,6 +66,9 @@ class CurveScrollWheel extends StatefulWidget {
 
   /// Text style of the items in the [CurveScrollWheel].
   final TextStyle? textStyle;
+
+  /// Text style of the selected Date in the [CurveScrollWheel].
+  final TextStyle? selectedTextStyle;
 
   /// Whether to call the [onSelectedItemChanged] when the scroll wheel animation is completed. Defaults to `true`.
   final bool listenAfterAnimation;
@@ -176,7 +182,7 @@ class _CurveScrollWheelState extends State<CurveScrollWheel> {
   /// Handles the call of the `onSelectedItemChanged` if it is enabled.
   void _handleOnSelectedItemChanged() {
     // If its not scrolling, then we call `onSelectedItemChanged` to update the value.
-    if (!_controller.position.isScrollingNotifier.value) {
+    if (!_controller.position.isScrollingNotifier.value)  {
       widget.onSelectedItemChanged?.call(_controller.selectedItem % widget.items.length);
     }
   }
@@ -218,7 +224,10 @@ class _CurveScrollWheelState extends State<CurveScrollWheel> {
     // If `_startOffsets` or `_lastOffsets` contains the current `itemIndex`, then mute the item. Otherwise, use the default text style.
     if (_startOffsets.contains(itemIndex) || _lastOffsets.contains(itemIndex)) {
       return widget.textStyle?.copyWith(color: widget.textStyle?.color?.withOpacity(0.2));
-    } else {
+    }else if(widget.selectedIndex == itemIndex){
+      return widget.selectedTextStyle;
+    }
+    else {
       return widget.textStyle;
     }
   }
